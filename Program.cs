@@ -37,40 +37,72 @@ namespace OpenKattis5
 				{'O', 14},{'P', 15},{'Q', 16},{'R', 17},{'S', 18},{'T', 19},{'U', 20},{'V', 21},{'W', 22},{'X', 23},{'Y', 24},{'Z', 25}
 			};
 
+			string nouns = Console.ReadLine();
+			string deciphered1 = "";
+			string deciphered2 = "";
+			string decipheredFinal = "";
 
-			string nouns = "ENOCKLAGAT";
 			int mid = nouns.Length / 2;
 
 			string half1 = nouns.Substring(0,mid);
 			string half2 = nouns.Substring(mid);
 
-			//Console.WriteLine($"{half1}\n{half2}");
-
-			int sumOfHalf = 0;
+			int sumOfHalf1 = 0;
 			for (int i = 0; i < mid; i++) 
 			{
-				//Console.WriteLine($"{half1[i]}");
-				var myKey = alphaDict.FirstOrDefault(x => x.Key == half1[i]).Value;
-				sumOfHalf += myKey;
-				//Console.WriteLine($"{myKey}"); 
-				//Console.WriteLine($"{sumOfHalf}");
+				var myVal = alphaDict[half1[i]];
+				sumOfHalf1 += myVal;
 			};
-			Console.WriteLine($"{sumOfHalf}");
-
-			if (sumOfHalf > 26) 
+			for (int i = 0; i < mid; i++)
 			{
-				sumOfHalf = sumOfHalf % 26;
+				int newVal = alphaDict[half1[i]] + sumOfHalf1;
+				if (newVal > 25)
+				{
+					newVal = newVal % 26;
+				}
+				string myKey = Convert.ToString(alphaDict.FirstOrDefault(x => x.Value == newVal).Key);
+				deciphered1 += myKey;
+			};
+
+			int sumOfHalf2 = 0;
+			for (int i = 0; i < mid; i++)
+			{
+				var myVal = alphaDict[half2[i]];
+				sumOfHalf2 += myVal;
+			};
+			if (sumOfHalf2 > 25)
+			{
+				sumOfHalf2 = sumOfHalf2 % 26;
 			}
-			Console.WriteLine($"{sumOfHalf}");
+			for (int i = 0; i < mid; i++)
+			{
+				int newVal = alphaDict[half2[i]] + sumOfHalf2;
+				if (newVal > 25)
+				{
+					newVal = newVal % 26;
+				}
+
+				string myKey = Convert.ToString(alphaDict.FirstOrDefault(x => x.Value == newVal).Key);
+				deciphered2 += myKey;
+			};
 
 			for (int i = 0; i < mid; i++)
 			{
-				//Console.WriteLine($"{half1[i]}");
-				var myKey = alphaDict.FirstOrDefault(x => x.Key == half1[i]).Value;
-				sumOfHalf += myKey;
-				//Console.WriteLine($"{myKey}"); 
-				//Console.WriteLine($"{sumOfHalf}");
+				var myVal = alphaDict[deciphered2[i]];
+				sumOfHalf1 += myVal;
 			};
+
+			for (int i = 0; i < mid; i++)
+			{
+				int newVal = alphaDict[deciphered1[i]] + alphaDict[deciphered2[i]];
+				if (newVal > 25)
+				{
+					newVal = newVal % 26;
+				}
+				string myKey = Convert.ToString(alphaDict.FirstOrDefault(x => x.Value == newVal).Key);
+				decipheredFinal += myKey;
+			};
+			Console.WriteLine($"{decipheredFinal}");
 		}
-    }
+	}
 }
